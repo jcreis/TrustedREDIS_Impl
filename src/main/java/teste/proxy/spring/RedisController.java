@@ -45,11 +45,21 @@ public class RedisController {
                         props.getProperty("redis.auth.pwd"), props.getProperty("redis.auth.usr"), genObject, true);
             }
             else{ // no cluster
+                if(Boolean.parseBoolean(props.getProperty("redis.auth"))){
+                    jedis.auth(props.getProperty("redis.auth.usr"), props.getProperty("redis.auth.pwd"));
+                }
                 jedis = new Jedis(props.getProperty("redis.host"), Integer.parseInt(props.getProperty("redis.port")), true);
                 jedis.connect();
             }
         }
         else{ // WITHOUT TLS
+            if(Boolean.parseBoolean(props.getProperty("redis.auth"))){
+                jedis.auth(props.getProperty("redis.auth.usr"), props.getProperty("redis.auth.pwd"));
+            }
+            else{
+                // Do nothing
+            }
+
             if(Boolean.parseBoolean(props.getProperty("redis.clustermode"))){
                 clusterMode = true;
                 HostAndPort hp = new HostAndPort(props.getProperty("redis.cluster.host"), Integer.parseInt(props.getProperty("redis.cluster.port")));
@@ -62,9 +72,7 @@ public class RedisController {
 
         }
 
-        if(Boolean.parseBoolean(props.getProperty("redis.auth"))){
-            jedis.auth(props.getProperty("redis.auth.usr"), props.getProperty("redis.auth.pwd"));
-        }
+
         //System.out.println(jedis.ping());
     }
 
