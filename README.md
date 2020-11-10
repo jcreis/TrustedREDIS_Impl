@@ -1,4 +1,3 @@
-# thesis_implementation
+# TREDIS Implementation - FCT-UNL Master Thesis
 
-
-Hello, welcome to my thesis :)
+README
