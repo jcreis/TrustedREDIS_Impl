@@ -10,4 +10,3 @@ COPY ./proxySSL/keycloak_truststore.p12 /home/project/proxySSL/keycloak_truststo
 
 CMD SCONE_VERSION=1 java -jar /home/project/proxyTRedis-1.0-SNAPSHOT.jar
 
-

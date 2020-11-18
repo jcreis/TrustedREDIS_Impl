@@ -9,9 +9,11 @@ teste/clientBenchmark/generated/Client_init_jmhTest.class
 teste/Main.class
 teste/authServer/SecurityConfig.class
 teste/clientBenchmark/generated/Client_jmhType_B2.class
+teste/attestationServer/Attestator.class
 META-INF/BenchmarkList
 teste/clientBenchmark/generated/Client_jmhType_B1.class
 teste/proxy/spring/RedisController.class
+teste/attestationServer/Attestator$InsecureHostnameVerifier.class
 teste/clientBenchmark/Client.class
 teste/clientBenchmark/generated/Client_jmhType.java
 teste/clientBenchmark/generated/Client_jmhType_B3.class

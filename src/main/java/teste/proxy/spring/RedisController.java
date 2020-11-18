@@ -1,11 +1,8 @@
 package teste.proxy.spring;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.omg.CORBA.Any;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +13,7 @@ import java.util.Set;
 public class RedisController {
 
     Jedis jedis;
+    JedisPool jPool;
     JedisCluster jedisCluster;
     private boolean clusterMode = false;
 
@@ -24,6 +22,17 @@ public class RedisController {
         InputStream is = RedisController.class.getResourceAsStream("/appConfig.properties");
         props.load(is);
 
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        if(Boolean.parseBoolean(props.getProperty("redis.auth"))){
+            jPool = new JedisPool(poolConfig, props.getProperty("redis.host"),
+                    Integer.parseInt(props.getProperty("redis.port")),0, props.getProperty("redis.auth.usr"),
+                    props.getProperty("redis.auth.pwd"), 0, null, true);
+        }
+        else{
+            jPool = new JedisPool(poolConfig, props.getProperty("redis.host"),
+                    Integer.parseInt(props.getProperty("redis.port")), 5, null,
+                    null, 0, null, true);
+        }
 
         // WITH TLS
         if(Boolean.parseBoolean(props.getProperty("redis.tls"))) {
@@ -45,38 +54,30 @@ public class RedisController {
                         props.getProperty("redis.auth.pwd"), props.getProperty("redis.auth.usr"), genObject, true);
             }
             else{ // no cluster
-                if(Boolean.parseBoolean(props.getProperty("redis.auth"))){
-                    jedis.auth(props.getProperty("redis.auth.usr"), props.getProperty("redis.auth.pwd"));
-                }
-                jedis = new Jedis(props.getProperty("redis.host"), Integer.parseInt(props.getProperty("redis.port")), true);
+                jedis = jPool.getResource();
+                //jedis = new Jedis(props.getProperty("redis.host"), Integer.parseInt(props.getProperty("redis.port")), true);
                 jedis.connect();
             }
         }
         else{ // WITHOUT TLS
-            if(Boolean.parseBoolean(props.getProperty("redis.auth"))){
+            /*if(Boolean.parseBoolean(props.getProperty("redis.auth"))){
                 jedis.auth(props.getProperty("redis.auth.usr"), props.getProperty("redis.auth.pwd"));
             }
             else{
                 // Do nothing
-            }
-
+            }*/
             if(Boolean.parseBoolean(props.getProperty("redis.clustermode"))){
                 clusterMode = true;
                 HostAndPort hp = new HostAndPort(props.getProperty("redis.cluster.host"), Integer.parseInt(props.getProperty("redis.cluster.port")));
                 jedisCluster = new JedisCluster(hp);
             }
             else {
-                jedis = new Jedis(props.getProperty("redis.host"), Integer.parseInt(props.getProperty("redis.port")));
+                jedis = jPool.getResource();
                 jedis.connect();
             }
-
         }
-
-
         //System.out.println(jedis.ping());
     }
-
-
 
 
     @GetMapping("/{key}")
