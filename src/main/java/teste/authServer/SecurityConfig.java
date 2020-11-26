@@ -54,6 +54,7 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
             super.configure(http);
             http.csrf().disable().authorizeRequests()
+                    .antMatchers("/redis/health").anonymous()
                     .antMatchers("/**").authenticated()
                     .anyRequest().authenticated();
         }

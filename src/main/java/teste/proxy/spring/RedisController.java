@@ -90,7 +90,7 @@ public class RedisController {
         try{
             if(!clusterMode) {
                 String result = jedis.get(key);
-                System.out.println("getting result: " + result);
+                //System.out.println("getting result: " + result);
                 if(result==null)
                     System.out.println("No value found for key + "+key);
                 return result;
@@ -110,7 +110,7 @@ public class RedisController {
         Jedis jedis = jPool.getResource();
         try {
             if(!clusterMode) {
-                System.out.println("posting value: " + value + " to key: " + key);
+                //System.out.println("posting value: " + value + " to key: " + key);
                 return jedis.set(key, value);
             }
             else
@@ -223,6 +223,11 @@ public class RedisController {
             jedis.close();
         }
         return null;
+    }
+
+    @GetMapping("/health")
+    public String getStatus() throws Exception{
+        return "OK";
     }
 
 }
