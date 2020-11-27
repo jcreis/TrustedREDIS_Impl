@@ -24,9 +24,12 @@ public class RedisController {
 
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         if(Boolean.parseBoolean(props.getProperty("redis.auth"))){
-            jPool = new JedisPool(poolConfig, props.getProperty("redis.host"),
-                    Integer.parseInt(props.getProperty("redis.port")),0, props.getProperty("redis.auth.usr"),
-                    props.getProperty("redis.auth.pwd"), 0, null, true);
+            if(!Boolean.parseBoolean(props.getProperty("redis.clustermode"))){
+                jPool = new JedisPool(poolConfig, props.getProperty("redis.host"),
+                        Integer.parseInt(props.getProperty("redis.port")), 0, props.getProperty("redis.auth.usr"),
+                        props.getProperty("redis.auth.pwd"), 0, null, true);
+            }
+            else {}
         }
         else{
             jPool = new JedisPool(poolConfig, props.getProperty("redis.host"),
@@ -45,6 +48,7 @@ public class RedisController {
             // cluster=true
             if(Boolean.parseBoolean(props.getProperty("redis.clustermode"))){
                 clusterMode = true;
+
                 HostAndPort hp = new HostAndPort(props.getProperty("redis.cluster.host"),
                         Integer.parseInt(props.getProperty("redis.cluster.port")));
 
@@ -86,97 +90,108 @@ public class RedisController {
 
     @GetMapping("/{key}")
     public String getKey(@PathVariable("key") String key) throws Exception{
-        Jedis jedis = jPool.getResource();
-        try{
-            if(!clusterMode) {
+        if(!clusterMode) {
+            Jedis jedis = jPool.getResource();
+            try {
+
                 String result = jedis.get(key);
                 //System.out.println("getting result: " + result);
-                if(result==null)
-                    System.out.println("No value found for key + "+key);
+                if (result == null)
+                    System.out.println("No value found for key + " + key);
                 return result;
+            }catch (Exception e) {
+                throw e;
             }
-            else
+            finally {
+                jedis.close();
+            }
+        }
+        else
+            try {
                 return jedisCluster.get(key);
-        } catch (Exception e) {
-            throw e;
-        }
-        finally {
-            jedis.close();
-        }
+            }
+            catch (Exception e){
+                throw e;
+            }
+
     }
 
     @PostMapping("/{key}")
-    public String setValueToKey(@PathVariable("key") String key, @RequestParam (required = true) String value) throws Exception{
-        Jedis jedis = jPool.getResource();
-        try {
-            if(!clusterMode) {
+    public String setValueToKey(@PathVariable("key") String key, @RequestParam (required = true) String value) throws Exception {
+        if (!clusterMode) {
+            Jedis jedis = jPool.getResource();
+            try {
                 //System.out.println("posting value: " + value + " to key: " + key);
                 return jedis.set(key, value);
             }
-            else
-                return jedisCluster.set(key, value);
-        } catch (Exception e) {
-            throw e;
+
+            catch(Exception e){
+                throw e;
+            }
+            finally{
+                jedis.close();
+            }
         }
-        finally {
-            jedis.close();
+        else {
+            return jedisCluster.set(key, value);
         }
     }
 
     @PutMapping("/{key}")
     public String updateKey(@PathVariable("key") String key, @RequestParam String value) throws Exception{
-        Jedis jedis = jPool.getResource();
-        try{
-            if(!clusterMode) {
+        if(!clusterMode) {
+            Jedis jedis = jPool.getResource();
+            try{
                 if (jedis.exists(key))
                     return jedis.set(key, value);
-            }
-            else{
-                if(jedis.exists(key))
-                    return jedisCluster.set(key, value);
+            }catch (Exception e){
+                throw e;
+            }finally {
+                jedis.close();
             }
         }
-        catch (Exception e){
-            throw e;
-        }finally {
-            jedis.close();
+        else{
+            if(jedisCluster.exists(key))
+                return jedisCluster.set(key, value);
         }
+
         return "";
     }
 
     @DeleteMapping("/{key}")
     public String deleteKey(@PathVariable("key") String key) throws Exception{
-        Jedis jedis = jPool.getResource();
-        try {
-            if(!clusterMode) {
+        if(!clusterMode) {
+            Jedis jedis = jPool.getResource();
+            try {
                 if (jedis.get(key) != null)
                     return jedis.del(key).toString();
-
             }
-            else {
-                if (jedis.get(key) != null)
-                    return jedisCluster.del(key).toString();
-
+            catch(Exception e){
+                throw e;
+            }finally {
+                jedis.close();
             }
+
         }
-        catch(Exception e){
-            throw e;
-        }finally {
-            jedis.close();
+        else {
+            if (jedisCluster.get(key) != null)
+                return jedisCluster.del(key).toString();
+
         }
+
         return "";
     }
 
-    @DeleteMapping("/all")
+/*    @DeleteMapping("/all")
     public String deleteAllKeys() throws Exception{
         Jedis jedis = jPool.getResource();
         try {
             if(!clusterMode) {
                 return jedis.flushAll();
             }
-            /*else {
+            *//*else {
                 return jedisCluster.flushAll
-            }*/
+            }*//*
         }
         catch(Exception e){
             throw e;
@@ -193,9 +208,9 @@ public class RedisController {
             if(!clusterMode) {
                 return jedis.sadd(key, value);
             }
-            /*else {
+            *//*else {
                 return jedisCluster.flushAll
-            }*/
+            }*//*
         }
         catch(Exception e){
             throw e;
@@ -213,9 +228,9 @@ public class RedisController {
             if(!clusterMode) {
                 return v = jedis.smembers(key);
             }
-            /*else {
+            *//*else {
                 return jedisCluster.flushAll
-            }*/
+            }*//*
         }
         catch(Exception e){
             throw e;
@@ -223,7 +238,7 @@ public class RedisController {
             jedis.close();
         }
         return null;
-    }
+    }*/
 
     @GetMapping("/health")
     public String getStatus() throws Exception{
