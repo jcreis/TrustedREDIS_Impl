@@ -1,0 +1,141 @@
+version: "3.3"
+services:
+
+  redis-7000:
+    container_name: redis-7000
+    image: redis:6.0.9
+    network_mode: "host"
+    volumes:
+      # Redis custom config file
+      - "./redis-7000.conf:/usr/local/etc/redis/redis.conf"
+      
+      # TLS server files
+      - "./tls/redis.key:/usr/local/etc/redis/redis.key"
+      - "./tls/redis.crt:/usr/local/etc/redis/redis.crt"
+      - "./tls/redis.dh:/usr/local/etc/redis/redis.dh"
+      - "./tls/ca.crt:/usr/local/etc/redis/ca.crt"
+      
+      # TLS client files
+      - "./tls/redis-cli.key:/usr/local/etc/redis/redis-cli.key"
+      - "./tls/redis-cli.crt:/usr/local/etc/redis/redis-cli.crt"
+
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+# Run client
+# docker exec -i -t redis-7000 redis-cli -c -p 7000 --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+  redis-7001:
+    container_name: redis-7001
+    image: redis:6.0.9
+    network_mode: "host"
+    volumes:
+      # Redis custom config file
+      - "./redis-7001.conf:/usr/local/etc/redis/redis.conf"
+      
+      # TLS server files
+      - "./tls/redis.key:/usr/local/etc/redis/redis.key"
+      - "./tls/redis.crt:/usr/local/etc/redis/redis.crt"
+      - "./tls/redis.dh:/usr/local/etc/redis/redis.dh"
+      - "./tls/ca.crt:/usr/local/etc/redis/ca.crt"
+      
+      # TLS client files
+      - "./tls/redis-cli.key:/usr/local/etc/redis/redis-cli.key"
+      - "./tls/redis-cli.crt:/usr/local/etc/redis/redis-cli.crt"
+
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+# Run client
+# docker exec -i -t redis-7001 redis-cli -c -p 7001 --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+  redis-7002:
+    container_name: redis-7002
+    image: redis:6.0.9
+    network_mode: "host"
+    volumes:
+      # Redis custom config file
+      - "./redis-7002.conf:/usr/local/etc/redis/redis.conf"
+      
+      # TLS server files
+      - "./tls/redis.key:/usr/local/etc/redis/redis.key"
+      - "./tls/redis.crt:/usr/local/etc/redis/redis.crt"
+      - "./tls/redis.dh:/usr/local/etc/redis/redis.dh"
+      - "./tls/ca.crt:/usr/local/etc/redis/ca.crt"
+      
+      # TLS client files
+      - "./tls/redis-cli.key:/usr/local/etc/redis/redis-cli.key"
+      - "./tls/redis-cli.crt:/usr/local/etc/redis/redis-cli.crt"
+
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+# Run client
+# docker exec -i -t redis-7002 redis-cli -c -p 7002 --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+  redis-7003:
+    container_name: redis-7003
+    image: redis:6.0.9
+    network_mode: "host"
+    volumes:
+      # Redis custom config file
+      - "./redis-7003.conf:/usr/local/etc/redis/redis.conf"
+      
+      # TLS server files
+      - "./tls/redis.key:/usr/local/etc/redis/redis.key"
+      - "./tls/redis.crt:/usr/local/etc/redis/redis.crt"
+      - "./tls/redis.dh:/usr/local/etc/redis/redis.dh"
+      - "./tls/ca.crt:/usr/local/etc/redis/ca.crt"
+      
+      # TLS client files
+      - "./tls/redis-cli.key:/usr/local/etc/redis/redis-cli.key"
+      - "./tls/redis-cli.crt:/usr/local/etc/redis/redis-cli.crt"
+
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+# Run client
+# docker exec -i -t redis-7003 redis-cli -c -p 7003 --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+  redis-7004:
+    container_name: redis-7004
+    image: redis:6.0.9
+    network_mode: "host"
+    volumes:
+      # Redis custom config file
+      - "./redis-7004.conf:/usr/local/etc/redis/redis.conf"
+      
+      # TLS server files
+      - "./tls/redis.key:/usr/local/etc/redis/redis.key"
+      - "./tls/redis.crt:/usr/local/etc/redis/redis.crt"
+      - "./tls/redis.dh:/usr/local/etc/redis/redis.dh"
+      - "./tls/ca.crt:/usr/local/etc/redis/ca.crt"
+      
+      # TLS client files
+      - "./tls/redis-cli.key:/usr/local/etc/redis/redis-cli.key"
+      - "./tls/redis-cli.crt:/usr/local/etc/redis/redis-cli.crt"
+
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+# Run client
+# docker exec -i -t redis-7004 redis-cli -c -p 7004 --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+  redis-7005:
+    container_name: redis-7005
+    image: redis:6.0.9
+    network_mode: "host"
+    volumes:
+      # Redis custom config file
+      - "./redis-7005.conf:/usr/local/etc/redis/redis.conf"
+      
+      # TLS server files
+      - "./tls/redis.key:/usr/local/etc/redis/redis.key"
+      - "./tls/redis.crt:/usr/local/etc/redis/redis.crt"
+      - "./tls/redis.dh:/usr/local/etc/redis/redis.dh"
+      - "./tls/ca.crt:/usr/local/etc/redis/ca.crt"
+      
+      # TLS client files
+      - "./tls/redis-cli.key:/usr/local/etc/redis/redis-cli.key"
+      - "./tls/redis-cli.crt:/usr/local/etc/redis/redis-cli.crt"
+
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+# Run client
+# docker exec -i -t redis-7005 redis-cli -c -p 7005 --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+

@@ -1,0 +1,118 @@
+version: "3.3"
+services:
+
+  redis-6350:
+    container_name: redis-6350
+    build:
+      context: .
+      dockerfile: redis-6350_Dockerfile
+    ports:
+      - "6350:6350"
+    network_mode: "host"
+    environment:
+      - SCONE_FORK=1
+      - SCONE_MODE=HW
+      - SCONE_VERSION=1
+    devices:
+      - /dev/isgx
+
+
+# Run client
+# docker exec -i -t redis-6350 redis-cli --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+  redis-6351:
+    container_name: redis-6351
+    build:
+      context: .
+      dockerfile: redis-6351_Dockerfile
+    ports:
+      - "6351:6351"
+    network_mode: "host"
+    environment:
+      - SCONE_FORK=1
+      - SCONE_MODE=HW
+      - SCONE_VERSION=1
+    devices:
+      - /dev/isgx
+
+# Run client
+# docker exec -i -t redis-6351 redis-cli --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+
+  redis-6352:
+    container_name: redis-6352
+    build:
+      context: .
+      dockerfile: redis-6352_Dockerfile
+    ports:
+      - "6352:6352"
+    network_mode: "host"
+    environment:
+      - SCONE_FORK=1
+      - SCONE_MODE=HW
+      - SCONE_VERSION=1
+    devices:
+      - /dev/isgx
+
+
+# Run client
+# docker exec -i -t redis-6352 redis-cli --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+
+  redis-6353:
+    container_name: redis-6353
+    build:
+      context: .
+      dockerfile: redis-6353_Dockerfile
+    ports:
+      - "6353:6353"
+    network_mode: "host"
+    environment:
+      - SCONE_FORK=1
+      - SCONE_MODE=HW
+      - SCONE_VERSION=1
+    devices:
+      - /dev/isgx
+
+# Run client
+# docker exec -i -t redis-6353 redis-cli --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+
+  redis-6354:
+    container_name: redis-6354
+    build:
+      context: .
+      dockerfile: redis-6354_Dockerfile
+    ports:
+      - "6354:6354"
+    network_mode: "host"
+    environment:
+      - SCONE_FORK=1
+      - SCONE_MODE=HW
+      - SCONE_VERSION=1
+    devices:
+      - /dev/isgx
+
+
+# Run client
+# docker exec -i -t redis-6354 redis-cli --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+
+  redis-6355:
+    container_name: redis-6355
+    build:
+      context: .
+      dockerfile: redis-6355_Dockerfile
+    ports:
+      - "6355:6355"
+    network_mode: "host"
+    environment:
+      - SCONE_FORK=1
+      - SCONE_MODE=HW
+      - SCONE_VERSION=1 
+    devices:
+      - /dev/isgx
+
+# Run client
+# docker exec -i -t redis-6355 redis-cli --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+

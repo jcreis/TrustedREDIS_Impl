@@ -1,0 +1,56 @@
+version: "3.3"
+services:
+
+  redis-master:
+    container_name: redis-master
+    build:
+      context: .
+      dockerfile: redis-master_Dockerfile
+    ports:
+      - "6378:6379"
+    environment:
+      - SCONE_FORK=1
+#      - SCONE_MODE=HW 
+#    devices:
+#      - /dev/isgx
+
+# Run client
+# docker exec -i -t redis-master redis-cli --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+  redis-slave-1:
+    container_name: redis-slave-1
+    build:
+      context: .
+      dockerfile: redis-slave_Dockerfile
+    ports:
+      - "6331:6379"
+    depends_on:
+      - redis-master
+    environment:
+      - SCONE_FORK=1
+#      - SCONE_MODE=HW
+#    devices:
+#      - /dev/isgx
+
+# Run client
+# docker exec -i -t redis-slave-1 redis-cli --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+
+  redis-slave-2:
+    container_name: redis-slave-2
+    build:
+      context: .
+      dockerfile: redis-slave_Dockerfile
+    ports:
+      - "6332:6379"
+    depends_on:
+      - redis-master
+    environment:
+      - SCONE_FORK=1
+#      - SCONE_MODE=HW
+#    devices:
+#      - /dev/isgx
+ 
+
+# Run client
+# docker exec -i -t redis-slave-2 redis-cli --tls --cacert /usr/local/etc/redis/ca.crt --cert /usr/local/etc/redis/redis-cli.crt --key /usr/local/etc/redis/redis-cli.key
+

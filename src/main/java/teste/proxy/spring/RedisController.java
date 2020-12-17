@@ -7,7 +7,7 @@ import redis.clients.jedis.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 @RestController @RequestMapping("/redis")
 public class RedisController {
@@ -54,6 +54,12 @@ public class RedisController {
 
                 GenericObjectPoolConfig<Object> genObject=new GenericObjectPoolConfig<Object>();
 
+
+               /* int [] replicas = {6350, 6351, 6352}; //master replicas ports
+                Random rand = new Random();
+                int replicaPos=rand.nextInt(2);
+                int replicaPort=replicas[replicaPos];*/
+
                 jedisCluster = new JedisCluster(hp, 5000, 1000, 5,
                         props.getProperty("redis.auth.pwd"), props.getProperty("redis.auth.usr"), genObject, true);
             }
@@ -74,6 +80,12 @@ public class RedisController {
             }*/
             if(Boolean.parseBoolean(props.getProperty("redis.clustermode"))){
                 clusterMode = true;
+
+                /* int [] replicas = {6350, 6351, 6352}; //master replicas ports
+                Random rand = new Random();
+                int replicaPos=rand.nextInt(2);
+                int replicaPort=replicas[replicaPos];*/
+                
                 HostAndPort hp = new HostAndPort(props.getProperty("redis.cluster.host"), Integer.parseInt(props.getProperty("redis.cluster.port")));
                 jedisCluster = new JedisCluster(hp);
             }
