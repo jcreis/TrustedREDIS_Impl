@@ -21,21 +21,21 @@ All the redis.conf files there present can and must be modified to comply with p
 
 To run a docker container with a redis instance **outside SGX**, run a normal docker run command, indicating the image.
 
-> sudo docker run -d -p <port>:6379 <image>
+> sudo docker run -d -p _**port**_:6379 _**image**_
 
 To run a docker container with a redis instance **inside SGX** (i.e.: Standalone Redis) use:
 
-> sudo docker run -d --device=/dev/isgx -e "SCONE_MODE=HW" -e "SCONE_VERSION=1" -p <port>:6379 <image>
+> sudo docker run -d --device=/dev/isgx -e "SCONE_MODE=HW" -e "SCONE_VERSION=1" -p _**port**_:6379 _**image**_
 
 The same applies to running the proxy component.
 
 **outside SGX**
 
-> sudo docker run -d -p <port>:8444 <image>
+> sudo docker run -d -p _**port**_:8444 _**image**_
 
 **inside SGX**
 
-> sudo docker run -d --device=/dev/isgx -e "SCONE_MODE=HW" -e "SCONE_VERSION=1" -p <port>:8444 <image>
+> sudo docker run -d --device=/dev/isgx -e "SCONE_MODE=HW" -e "SCONE_VERSION=1" -p _**port**_:8444 _**image**_
 
 Notes:
 
@@ -45,7 +45,7 @@ Notes:
 
 -e "SCONE_VERSION=1": shows SCONE info in the container
 
-The image <image> needs to comply to a SCONE container image. To see how, check the Dockerfiles (i.e) in *\configurationsInCloud\redis\sgx*
+The image _**image**_ needs to comply to a SCONE container image. To see how, check the Dockerfiles (i.e) in *\configurationsInCloud\redis\sgx*
 
 For redis configurations with more than one replica, we provide docker-compose files (i.e: ..\sgx\scone_cluster\redis-cluster.yml) that can be used to ease the launch of the redis system.
 
